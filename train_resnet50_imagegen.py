@@ -12,11 +12,11 @@ import os
 input_layer = Input(shape=(200, 200, 1))
 base_model = ResNet50(weights=None, input_tensor = input_layer)
 x = base_model.output
-x = Dense(128, kernel_regularizer=regularizers.l2(0.01),)(x)
+x = Dense(128, kernel_regularizer=regularizers.l1_l2(0.05))(x)
 x = Dropout(0.5)(x)
 x = LeakyReLU()(x)
 x = Dropout(0.7)(x)
-logits = Dense(7, kernel_regularizer=regularizers.l2(0.01),)(x)
+logits = Dense(7, kernel_regularizer=regularizers.l1_l2(0.05))(x)
 predictions = Activation("softmax")(logits)
 model = Model(inputs=base_model.input, outputs=predictions)
 
@@ -53,7 +53,7 @@ model.compile(optimizer="sgd", loss="categorical_crossentropy",
 checkpointer = ModelCheckpoint(filepath="resnet50.ckpt", verbose=1, save_best_only=True)
 model.fit_generator(train_generator,
 		steps_per_epoch=575,
-		epochs=50,
+		epochs=20,
 		validation_data=validation_generator,
 		validation_steps=72,
 		callbacks= [checkpointer])
