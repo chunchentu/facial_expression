@@ -57,3 +57,8 @@ This is the best model we have achieved so far.
 | Validation | 58.04    | 48.57     | 48.13  | 46.10 |
 | Testing    | 58.90    | 49.19     | 48.85  | 46.86 |
 
+These numbers can be obtained through
+
+```python
+python3 verify_model.py
+```
