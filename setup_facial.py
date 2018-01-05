@@ -10,7 +10,7 @@ smallest input size of resnet50.
 
 class FACIAL:
 	def __init__(self):
-		filename = "fer2013"
+		filename = "fer2013/fer2013.csv"
 		if not os.path.exists(filename):
 			print("Facial data not found: {}".format(filename))
 			print("You can download it from https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data")
@@ -43,10 +43,10 @@ class FACIAL:
 				label[temp_label] = 1
 
 				# load image
-				pixel_value = [int(x)/255-0.5 for x in pixel.split()]
+				pixel_value = [float(x)/255-0.5 for x in pixel.split()]
 				data = np.reshape(pixel_value, (48, 48))
 				data = scipy.misc.imresize(data, (200, 200))
-
+				data = np.expand_dims(data, axis=2)
 				usage = usage.rstrip()
 				if usage == "Training":
 					train_data.append(data)
