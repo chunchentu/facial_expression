@@ -20,8 +20,9 @@ logits = Dense(7, kernel_regularizer=regularizers.l2(0.01),)(x)
 predictions = Activation("softmax")(logits)
 model = Model(inputs=base_model.input, outputs=predictions)
 
+preprocess_fun = lambda x: x/255 - 0.5
 
-train_datagen = ImageDataGenerator(rescale=1./255,
+train_datagen = ImageDataGenerator(preprocessing_function=preprocess_fun,
 									shear_range=0.2,
 									zoom_range=0.2,
 									horizontal_flip=True,
@@ -32,7 +33,7 @@ train_generator = train_datagen.flow_from_directory(
 					target_size=(200, 200),
 					batch_size=50,
 					class_mode="categorical")
-validation_datagen = ImageDataGenerator(rescale=1./255)
+validation_datagen = ImageDataGenerator(preprocessing_function=preprocess_fun)
 validation_generator = validation_datagen.flow_from_directory(
 						"facial_imgs/validation_dir/",
 						color_mode="grayscale",
