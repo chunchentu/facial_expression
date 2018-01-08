@@ -60,7 +60,7 @@ This is the best model we have achieved so far.
 These numbers can be obtained through
 
 ```python
-python3 verify_model.py
+python3 verify_model.py --model_weights resnet_weights.h5
 ```
 
 You can download the model weights [here](http://www-personal.umich.edu/~timtu/Downloads/resnet50_faical_expression/resnet50_weights.h5).
