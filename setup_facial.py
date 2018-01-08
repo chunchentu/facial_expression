@@ -2,14 +2,22 @@ import numpy as np
 import os
 import re
 import scipy.misc
+from keras.applications.resnet50 import ResNet50
+from keras.layers import Input, Dense, Dropout, LeakyReLU, Activation
+from keras.models import Model
+from keras.callbacks import ModelCheckpoint
+from keras import metrics
+from keras import regularizers
+from keras.optimizers import SGD
 
-'''
-The original image size is 48x48 and is resize to 200x200 to fit the 
-smallest input size of resnet50.
-'''
 
 class FACIAL:
+
 	def __init__(self):
+		'''
+		The original image size is 48x48 and is resize to 200x200 to fit the 
+		smallest input size of resnet50.
+		'''
 		filename = "fer2013/fer2013.csv"
 		if not os.path.exists(filename):
 			print("Facial data not found: {}".format(filename))
@@ -71,3 +79,29 @@ class FACIAL:
 		self.validation_labels = np.array(validation_labels)
 		self.test_data = np.array(test_data)
 		self.test_labels = np.array(test_labels)
+
+class FACIALModel:
+	def __init__(self, restore=None, use_log=False):
+		self.image_size = 200
+
+		input_layer = Input(shape=(self.image_size, self.image_size, 1))
+		base_model = ResNet50(weights=None, input_tensor=input_layer)
+		x = base_model.output
+		x = LeakyReLU()(x)
+		x = Dense(128)(x)
+		x = Dropout(0.3)(x)
+		x = LeakyReLU()(x)
+		x = Dropout(0.4)(x)
+		x = Dense(7)(x)
+		if use_log:
+			x = Activation("softmax")(x)
+		model = Model(inputs=base_model.input, outputs=x)
+
+		if restore:
+			model.load_weights(restore)
+
+		self.model = model
+
+	def predict(self, data):
+		# this is used inside tf session, data should be a tensor
+		return self.model(data)
