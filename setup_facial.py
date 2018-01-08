@@ -76,7 +76,7 @@ class FACIAL:
 		self.test_labels = np.array(test_labels)
 
 class FACIALModel:
-	def __init__(self, restore=None, use_log=False):
+	def __init__(self, restore = None, session=None, use_log=False):
 		self.image_size = 200
 
 		input_layer = Input(shape=(self.image_size, self.image_size, 1))
