@@ -5,7 +5,6 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 import os
 import numpy as np
 import warnings
-<<<<<<< HEAD
 import argparse
 from keras.preprocessing.image import ImageDataGenerator
 
