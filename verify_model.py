@@ -1,14 +1,15 @@
 from setup_facial import FACIAL, FACIALModel
+from keras.models import Model, model_from_json
+from setup_facial import FACIAL
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 import os
 import numpy as np
 import warnings
+<<<<<<< HEAD
 import argparse
-
-
+from keras.preprocessing.image import ImageDataGenerator
 
 warnings.filterwarnings("ignore")
-
 
 def get_metric(class_true, class_pred):
 	accuracy = accuracy_score(class_true, class_pred)
@@ -46,4 +47,3 @@ if __name__ == "__main__":
 	test_pred = np.argmax(model.model.predict(data.test_data), axis=1)
 	print("Test data:")
 	get_metric(test_true, test_pred)
-

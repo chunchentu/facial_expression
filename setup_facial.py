@@ -12,12 +12,7 @@ from keras.optimizers import SGD
 
 
 class FACIAL:
-
 	def __init__(self):
-		'''
-		The original image size is 48x48 and is resize to 200x200 to fit the 
-		smallest input size of resnet50.
-		'''
 		filename = "fer2013/fer2013.csv"
 		if not os.path.exists(filename):
 			print("Facial data not found: {}".format(filename))
