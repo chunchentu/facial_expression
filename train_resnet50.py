@@ -3,6 +3,7 @@ from keras.layers import Input, Dense, Dropout, LeakyReLU, Activation
 from keras.models import Model
 from keras.callbacks import ModelCheckpoint
 from keras import metrics
+from keras import regularizers
 from keras.optimizers import SGD
 import numpy as np
 from setup_facial import FACIAL
@@ -13,10 +14,11 @@ data = FACIAL()
 input_layer = Input(shape=(200, 200, 1))
 base_model = ResNet50(weights=None, input_tensor = input_layer)
 x = base_model.output
-x = Dense(128)(x)
-x = Dropout(0.2)(x)
 x = LeakyReLU()(x)
-x = Dropout(0.5)(x)
+x = Dense(128)(x)
+x = Dropout(0.3)(x)
+x = LeakyReLU()(x)
+x = Dropout(0.4)(x)
 logits = Dense(7)(x)
 predictions = Activation("softmax")(logits)
 model = Model(inputs=base_model.input, outputs=predictions)
@@ -31,16 +33,16 @@ if os.path.exists("resnet50.ckpt"):
 	model.load_weights("resnet50.ckpt")
 
 
-sgd = SGD(lr=0.01, momentum=0.9)
-model.compile(optimizer=sgd, loss="categorical_crossentropy",
+sgd = SGD(lr=0.01, momentum=0.5)
+model.compile(optimizer="sgd", loss="categorical_crossentropy",
 	metrics=[metrics.categorical_accuracy])
 checkpointer = ModelCheckpoint(filepath="resnet50.ckpt", verbose=1, save_best_only=True)
 
 
 model.fit(data.train_data, data.train_labels,
-	batch_size = 90,
+	batch_size = 50,
 	validation_data = (data.validation_data, data.validation_labels),
-	epochs = 100,
+	epochs = 30,
 	shuffle = True,
 	callbacks = [checkpointer])
 
