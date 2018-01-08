@@ -46,6 +46,12 @@ python3 train_resnet50_imagegen.py
 
 For both, the model is trained on the images that are normalized to -0.5 to 0.5. Data augmentation is adopted for the second option and thus it is more recommended. We train the model using NVIDIA GeForce GTX 1080 Ti and it takes about 4 minutes on each epoch for both options. 
 
+There are two options. With `--model_weights` you can initialize the model weights with the pre-trained model. With `--save_prefix` you can speficied the prefix of the saved files.
+
+```python3
+python3 train_resnet50.py --model_weights resnet50_weights.h5 --save_prefix resnet50
+```
+
 
 # Model performance (2018/01/05)
 
