@@ -59,7 +59,7 @@ This is the best model we have achieved so far.
 
 These numbers can be obtained through
 
-```python
+```python3
 python3 verify_model.py --model_weights resnet_weights.h5
 ```
 
