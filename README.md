@@ -2,7 +2,7 @@
 
 ## Dataset
 
-The data can be downloaded from [here].(https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data)
+The data can be downloaded from [here](https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data)
 
 There are 28709 training samples, 3589 validation samples and 3589 testing samples. Each image is a 48x48 grayscale image corresponding to one of the seven classes (0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral). Please note the minority portion of the class *Disgust*.
 
@@ -53,12 +53,14 @@ This is the best model we have achieved so far.
 
 |            | Accuracy | Precision | Recall | F1    |
 |------------|----------|-----------|--------|-------|
-| Training   | 72.95    | 62.77     | 61.53  | 59.51 |
-| Validation | 58.04    | 48.57     | 48.13  | 46.10 |
-| Testing    | 58.90    | 49.19     | 48.85  | 46.86 |
+| Training   | 97.04    | 83.02     | 84.37  | 83.66 |
+| Validation | 64.39    | 53.93     | 54.62  | 54.06 |
+| Testing    | 64.53    | 54.20     | 54.59  | 54.16 |
 
 These numbers can be obtained through
 
-```python
-python3 verify_model.py
+```python3
+python3 verify_model.py --model_weights resnet_weights.h5
 ```
+
+You can download the model weights [here](http://www-personal.umich.edu/~timtu/Downloads/resnet50_faical_expression/resnet50_weights.h5).
