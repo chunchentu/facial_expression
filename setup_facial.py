@@ -9,7 +9,7 @@ from keras.callbacks import ModelCheckpoint
 from keras import metrics
 from keras import regularizers
 from keras.optimizers import SGD
-
+from ResNet50_noBN import ResNet50_noBN
 
 class FACIAL:
 	def __init__(self):
@@ -76,17 +76,21 @@ class FACIAL:
 		self.test_labels = np.array(test_labels)
 
 class FACIALModel:
-	def __init__(self, restore = None, session=None, use_log=False):
+	def __init__(self, restore = None, session=None, use_log=False, withBN=True):
 		self.image_size = 200
-
+		self.num_channels = 1
+		self.num_labels = 7
 		input_layer = Input(shape=(self.image_size, self.image_size, 1))
-		base_model = ResNet50(weights=None, input_tensor=input_layer)
+		if withBN:
+			base_model = ResNet50(weights=None, input_tensor=input_layer)
+		else:
+			base_model = ResNet50_noBN(weights=None, input_tensor=input_layer)
 		x = base_model.output
 		x = LeakyReLU()(x)
 		x = Dense(128)(x)
-		x = Dropout(0.3)(x)
+		#x = Dropout(0.3)(x)
 		x = LeakyReLU()(x)
-		x = Dropout(0.4)(x)
+		#x = Dropout(0.4)(x)
 		x = Dense(7)(x)
 		if use_log:
 			x = Activation("softmax")(x)

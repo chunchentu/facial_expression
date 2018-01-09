@@ -1,12 +1,12 @@
 from setup_facial import FACIAL, FACIALModel
 from keras.models import Model, model_from_json
-from setup_facial import FACIAL
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 import os
 import numpy as np
 import warnings
 import argparse
 from keras.preprocessing.image import ImageDataGenerator
+
 
 warnings.filterwarnings("ignore")
 
