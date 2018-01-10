@@ -11,7 +11,7 @@ if __name__ == "__main__":
 	parser.add_argument("--save_prefix", default="resnet50", help="the file name prefix for saving the model")
 
 	args = vars(parser.parse_args())
-	data, model = FACIAL(), FACIALModel(restore=args["model_weights"], use_log=True)
+	data, model = FACIAL(resize=200), FACIALModel(restore=args["model_weights"], use_log=True, image_size=200)
 	model = model.model
 
 	model.compile(optimizer="sgd", loss="categorical_crossentropy",
