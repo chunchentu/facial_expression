@@ -9,10 +9,11 @@ from keras.callbacks import ModelCheckpoint
 from keras import metrics
 from keras import regularizers
 from keras.optimizers import SGD
-from ResNet50_noBN import ResNet50_noBN
+import resnet
+#from ResNet50_noBN import ResNet50_noBN
 
 class FACIAL:
-	def __init__(self):
+	def __init__(self, resize=None):
 		filename = "fer2013/fer2013.csv"
 		if not os.path.exists(filename):
 			print("Facial data not found: {}".format(filename))
@@ -48,7 +49,8 @@ class FACIAL:
 				# load image
 				pixel_value = [int(x) for x in pixel.split()]
 				data = np.reshape(pixel_value, (48, 48))
-				data = scipy.misc.imresize(data, (200, 200))
+				if resize:
+					data = scipy.misc.imresize(data, (resize, resize))
 				data = np.expand_dims(data, axis=2)
 				data = data/255 - 0.5
 				usage = usage.rstrip()
@@ -75,26 +77,32 @@ class FACIAL:
 		self.test_data = np.array(test_data)
 		self.test_labels = np.array(test_labels)
 
+
+
 class FACIALModel:
-	def __init__(self, restore = None, session=None, use_log=False, withBN=True):
-		self.image_size = 200
+	def __init__(self, restore = None, session=None, use_log=False, image_size=48):
+		self.image_size = image_size
 		self.num_channels = 1
 		self.num_labels = 7
-		input_layer = Input(shape=(self.image_size, self.image_size, 1))
-		if withBN:
+
+		if image_size == 48:
+			model = resnet.ResnetBuilder.build_resnet_50((self.num_channels, self.image_size, self.image_size), self.num_labels)
+		elif image_size == 200:
+			input_layer = Input(shape=(self.image_size, self.image_size, 1))
 			base_model = ResNet50(weights=None, input_tensor=input_layer)
+			x = base_model.output
+			x = LeakyReLU()(x)
+			x = Dense(128)(x)
+			#x = Dropout(0.3)(x)
+			x = LeakyReLU()(x)
+			#x = Dropout(0.4)(x)
+			x = Dense(7)(x)
+			if use_log:
+				x = Activation("softmax")(x)
+			model = Model(inputs=base_model.input, outputs=x)
 		else:
-			base_model = ResNet50_noBN(weights=None, input_tensor=input_layer)
-		x = base_model.output
-		x = LeakyReLU()(x)
-		x = Dense(128)(x)
-		#x = Dropout(0.3)(x)
-		x = LeakyReLU()(x)
-		#x = Dropout(0.4)(x)
-		x = Dense(7)(x)
-		if use_log:
-			x = Activation("softmax")(x)
-		model = Model(inputs=base_model.input, outputs=x)
+			raise Exception("Wrong image size, can only take 48 or 200.")
+		
 
 		if restore:
 			model.load_weights(restore)
