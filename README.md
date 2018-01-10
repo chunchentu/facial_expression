@@ -87,3 +87,6 @@ The prediction performance
 | Training   | 85.31    | 85.59     | 85.10  | 85.32 |
 | Validation | 65.81    | 63.90     | 63.59  | 63.72 |
 | Testing    | 67.34    | 67.00     | 66.38  | 66.66 |
+
+
+The model weights can be downloaded from [here](http://www-personal.umich.edu/~timtu/Downloads/resnet50_faical_expression/resnet50_imgsize48_weights.h5).
