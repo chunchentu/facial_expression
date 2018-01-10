@@ -24,7 +24,7 @@ There are 6 attributes: `data.train_data`, `data.train_labels`, `data.validation
 
 [ImageDataGenerator](https://keras.io/preprocessing/image/) is a powerfull API provided by Keras to augment image data. Before training the model using ImageDataGenerator, it is required to put data into correct folder structure (see an [example](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html)). The python script `preprocess_facial_data.py` extracts images and save them to fit the requirement. Simply run
 
-```python
+```bash
 python3 preprocess_facial_data.py
 ```
 
@@ -34,13 +34,13 @@ This will create a folder `facial_imgs` and sub-folders for training/validation/
 
 We use [ResNet50](https://keras.io/applications/#resnet50) provided by Keras. You can train the model with in-memory setup with
 
-```python
+```bash
 python3 train_resnet50.py
 ```
 
 Similarly, you can train the model using ImageDataGenerator support by 
 
-```python
+```bash
 python3 train_resnet50_imagegen.py
 ``` 
 
@@ -48,7 +48,7 @@ For both, the model is trained on the images that are normalized to -0.5 to 0.5.
 
 There are two options. With `--model_weights` you can initialize the model weights with the pre-trained model. With `--save_prefix` you can speficied the prefix of the saved files.
 
-```python3
+```bash
 python3 train_resnet50.py --model_weights resnet50_weights.h5 --save_prefix resnet50
 ```
 
@@ -65,7 +65,7 @@ This is the best model we have achieved so far.
 
 These numbers can be obtained through
 
-```python3
+```bash
 python3 verify_model.py --model_weights resnet_weights.h5
 ```
 
@@ -76,7 +76,7 @@ You can download the model weights [here](http://www-personal.umich.edu/~timtu/D
 I found another implementation of resnet50 ([link](https://github.com/raghakot/keras-resnet)), which has no restriction on the input size. The training script is also provided:
 
 
-```python3
+```bash
 python3 train_resnet50_imgsize48.py
 ```
 
