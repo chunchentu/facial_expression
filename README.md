@@ -70,3 +70,20 @@ python3 verify_model.py --model_weights resnet_weights.h5
 ```
 
 You can download the model weights [here](http://www-personal.umich.edu/~timtu/Downloads/resnet50_faical_expression/resnet50_weights.h5).
+
+# Another implementation 
+
+I found another implementation of resnet50 ([link](https://github.com/raghakot/keras-resnet)), which has no restriction on the input size. The training script is also provided:
+
+
+```python3
+python3 train_resnet50_imgsize48.py
+```
+
+The prediction performance
+
+|            | Accuracy | Precision | Recall | F1    |
+|------------|----------|-----------|--------|-------|
+| Training   | 85.31    | 85.59     | 85.10  | 85.32 |
+| Validation | 65.81    | 63.90     | 63.59  | 63.72 |
+| Testing    | 67.34    | 67.00     | 66.38  | 66.66 |
