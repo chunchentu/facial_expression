@@ -20,6 +20,7 @@ if __name__ == "__main__":
   parser.add_argument("--save_prefix", default="resnet50_imgsize48", help="the file name prefix for saving the model")
 
   args = vars(parser.parse_args())
+  lr_reducer = ReduceLROnPlateau(factor=np.sqrt(0.1), cooldown=0, patience=5, min_lr=0.5e-6)
 
   batch_size = 100
   nb_classes = 7
@@ -48,7 +49,7 @@ if __name__ == "__main__":
                 nb_epoch=nb_epoch,
                 validation_data=(X_test, Y_test),
                 shuffle=True,
-                callbacks=[checkpointer])
+                callbacks=[checkpointer, lr_reducer])
   else:
       print('Using real-time data augmentation.')
       # This will do preprocessing and realtime data augmentation:
@@ -73,7 +74,7 @@ if __name__ == "__main__":
                           steps_per_epoch=data.train_data.shape[0] // batch_size,
                           validation_data=(data.test_data, data.test_labels),
                           epochs=nb_epoch, verbose=1, max_q_size=100,
-                          callbacks=[checkpointer])
+                          callbacks=[checkpointer, lr_reducer])
   model_json = model.to_json()
   json_file_name = "{}_model.json".format(args["save_prefix"])
   with open(json_file_name, "w") as json_file:
