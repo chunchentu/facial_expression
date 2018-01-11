@@ -80,13 +80,13 @@ class FACIAL:
 
 
 class FACIALModel:
-	def __init__(self, restore = None, session=None, use_log=False, image_size=48):
+	def __init__(self, restore = None, session=None, use_log=True, image_size=48):
 		self.image_size = image_size
 		self.num_channels = 1
 		self.num_labels = 7
 
 		if image_size == 48:
-			model = resnet.ResnetBuilder.build_resnet_50((self.num_channels, self.image_size, self.image_size), self.num_labels, use_softmax=not use_log)
+			model = resnet.ResnetBuilder.build_resnet_50((self.num_channels, self.image_size, self.image_size), self.num_labels, use_softmax=use_log)
 		elif image_size == 200:
 			input_layer = Input(shape=(self.image_size, self.image_size, 1))
 			base_model = ResNet50(weights=None, input_tensor=input_layer)
