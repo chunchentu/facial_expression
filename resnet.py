@@ -186,7 +186,7 @@ def _get_block(identifier):
 
 class ResnetBuilder(object):
     @staticmethod
-    def build(input_shape, num_outputs, block_fn, repetitions):
+    def build(input_shape, num_outputs, block_fn, repetitions, use_softmax=True):
         """Builds a custom ResNet like architecture.
 
         Args:
@@ -229,27 +229,27 @@ class ResnetBuilder(object):
         pool2 = AveragePooling2D(pool_size=(block_shape[ROW_AXIS], block_shape[COL_AXIS]),
                                  strides=(1, 1))(block)
         flatten1 = Flatten()(pool2)
-        dense = Dense(units=num_outputs, kernel_initializer="he_normal",
-                      activation="softmax")(flatten1)
-
+        dense = Dense(units=num_outputs, kernel_initializer="he_normal")(flatten1)
+        if use_softmax:
+            dense = Activation("softmax")(dense)
         model = Model(inputs=input, outputs=dense)
         return model
 
     @staticmethod
-    def build_resnet_18(input_shape, num_outputs):
-        return ResnetBuilder.build(input_shape, num_outputs, basic_block, [2, 2, 2, 2])
+    def build_resnet_18(input_shape, num_outputs, use_softmax=True):
+        return ResnetBuilder.build(input_shape, num_outputs, basic_block, [2, 2, 2, 2], use_softmax)
 
     @staticmethod
-    def build_resnet_34(input_shape, num_outputs):
-        return ResnetBuilder.build(input_shape, num_outputs, basic_block, [3, 4, 6, 3])
+    def build_resnet_34(input_shape, num_outputs, use_softmax=True):
+        return ResnetBuilder.build(input_shape, num_outputs, basic_block, [3, 4, 6, 3], use_softmax)
 
     @staticmethod
-    def build_resnet_50(input_shape, num_outputs):
-        return ResnetBuilder.build(input_shape, num_outputs, bottleneck, [3, 4, 6, 3])
+    def build_resnet_50(input_shape, num_outputs, use_softmax=True):
+        return ResnetBuilder.build(input_shape, num_outputs, bottleneck, [3, 4, 6, 3], use_softmax)
 
     @staticmethod
-    def build_resnet_101(input_shape, num_outputs):
-        return ResnetBuilder.build(input_shape, num_outputs, bottleneck, [3, 4, 23, 3])
+    def build_resnet_101(input_shape, num_outputs, use_softmax=True):
+        return ResnetBuilder.build(input_shape, num_outputs, bottleneck, [3, 4, 23, 3], use_softmax)
 
     @staticmethod
     def build_resnet_152(input_shape, num_outputs):

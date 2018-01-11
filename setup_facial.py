@@ -86,7 +86,7 @@ class FACIALModel:
 		self.num_labels = 7
 
 		if image_size == 48:
-			model = resnet.ResnetBuilder.build_resnet_50((self.num_channels, self.image_size, self.image_size), self.num_labels)
+			model = resnet.ResnetBuilder.build_resnet_50((self.num_channels, self.image_size, self.image_size), self.num_labels, use_softmax=not use_log)
 		elif image_size == 200:
 			input_layer = Input(shape=(self.image_size, self.image_size, 1))
 			base_model = ResNet50(weights=None, input_tensor=input_layer)

@@ -32,7 +32,7 @@ if __name__ == "__main__":
   img_channels = 1
 
   # The data, shuffled and split between train and test sets:
-  data, model = FACIAL(), FACIALModel(args["model_weights"], use_log=False)
+  data, model = FACIAL(), FACIALModel(args["model_weights"])
   model = model.model
   if os.path.exists("resnet50_imgsize48.ckpt"):
     print("Loading pre-trained model")
