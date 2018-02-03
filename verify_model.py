@@ -21,7 +21,7 @@ def get_metric(class_true, class_pred):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--model_weights", default=None, help="the path of the model weights")
-
+	parser.add_argument("--image_size", default=48, type=int, choices=[48, 200])
 	args = vars(parser.parse_args())
 	if args["model_weights"] is None:
 		raise Exception("You should specify the model weights for prediction")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
 	if not os.path.exists(args["model_weights"]):
 		raise Exception("Model weight file does not exist:{}".format(args["model_weights"]))
 
-	data, model = FACIAL(), FACIALModel(args["model_weights"], use_log=False)
+	data, model = FACIAL(resize=args["image_size"]), FACIALModel(args["model_weights"], use_log=False, image_size=args["image_size"])
 
 	train_true = np.argmax(data.train_labels, axis=1)
 	train_pred = np.argmax(model.model.predict(data.train_data), axis=1)
