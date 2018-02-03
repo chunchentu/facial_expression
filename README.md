@@ -66,7 +66,7 @@ This is the best model we have achieved so far.
 These numbers can be obtained through
 
 ```bash
-python3 verify_model.py --model_weights resnet_weights.h5
+python3 verify_model.py --model_weights resnet_weights.h5 --image_size 200
 ```
 
 You can download the model weights [here](http://www-personal.umich.edu/~timtu/Downloads/resnet50_faical_expression/resnet50_weights.h5).
@@ -84,9 +84,13 @@ The prediction performance
 
 |            | Accuracy | Precision | Recall | F1    |
 |------------|----------|-----------|--------|-------|
-| Training   | 84.55    | 84.66     | 84.42  | 84.50 |
-| Validation | 65.90    | 65.05     | 61.89  | 63.06 |
-| Testing    | 67.15    | 67.31     | 66.25  | 66.69 |
+| Training   | 82.71    | 82.55     | 82.23  | 82.35 |
+| Validation | 65.51    | 63.92     | 61.25  | 62.27 |
+| Testing    | 65.56    | 66.10     | 65.39  | 65.71 |
 
 
 The model weights can be downloaded from [here](http://www-personal.umich.edu/~timtu/Downloads/resnet50_faical_expression/resnet50_imgsize48_weights.h5).
+
+```bash
+python3 verify_model.py --model_weights resnet50_imgsize48_weights.h5 --image_size 48
+```
